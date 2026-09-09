@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+  <title>Balaji Studio</title>
+
+  <link rel="stylesheet" href="style.css">
+
+  <!-- Fabric.js -->
+  <script src="https://cdn.jsdelivr.net/npm/fabric@6.9.0/dist/index.min.js"></script>
+</head>
+
+<body>
+
+  <header>
+    <h1>🎨 Balaji Studio</h1>
+    <p>Create • Edit • Share Templates</p>
+  </header>
+
+
+  <main>
+
+    <!-- TOOLBAR -->
+    <div class="toolbar">
+
+      <label class="upload-btn">
+        📷 Upload Design
+        <input
+          type="file"
+          id="imageUpload"
+          accept="image/*">
+      </label>
+
+      <button id="addText">
+        ＋ Text
+      </button>
+
+      <button id="addImage">
+        🖼️ Image
+      </button>
+
+      <label class="color-box">
+        Color
+        <input
+          type="color"
+          id="textColor"
+          value="#000000">
+      </label>
+
+      <button id="deleteObject">
+        🗑 Delete
+      </button>
+
+      <button id="clearCanvas">
+        ✕ Clear
+      </button>
+
+      <button id="download">
+        ⬇ Download
+      </button>
+
+    </div>
+
+
+    <!-- EDITOR -->
+    <section class="editor">
+
+      <canvas id="canvas"></canvas>
+
+    </section>
+
+  </main>
+
+
+  <script src="editor.js"></script>
+
+</body>
+
+        </html>
