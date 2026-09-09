@@ -1,84 +1,331 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="LayerForge - Turn images into editable designs." />
+  <title>LayerForge — AI Image Editor</title>
 
-  <meta name="viewport"
-        content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-  <title>Balaji Studio</title>
-
-  <link rel="stylesheet" href="style.css">
-
-  <!-- Fabric.js -->
-  <script src="https://cdn.jsdelivr.net/npm/fabric@6.9.0/dist/index.min.js"></script>
+  <link rel="stylesheet" href="style.css" />
 </head>
 
 <body>
 
-  <header>
-    <h1>🎨 Balaji Studio</h1>
-    <p>Create • Edit • Share Templates</p>
-  </header>
-
-
-  <main>
-
-    <!-- TOOLBAR -->
-    <div class="toolbar">
-
-      <label class="upload-btn">
-        📷 Upload Design
-        <input
-          type="file"
-          id="imageUpload"
-          accept="image/*">
-      </label>
-
-      <button id="addText">
-        ＋ Text
-      </button>
-
-      <button id="addImage">
-        🖼️ Image
-      </button>
-
-      <label class="color-box">
-        Color
-        <input
-          type="color"
-          id="textColor"
-          value="#000000">
-      </label>
-
-      <button id="deleteObject">
-        🗑 Delete
-      </button>
-
-      <button id="clearCanvas">
-        ✕ Clear
-      </button>
-
-      <button id="download">
-        ⬇ Download
-      </button>
-
+  <!-- ================= HEADER ================= -->
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-icon">L</div>
+      <div>
+        <strong>LayerForge</strong>
+        <span>AI Design Studio</span>
+      </div>
     </div>
 
+    <div class="top-actions">
+      <button class="ghost-btn" id="newDesignBtn">＋ New</button>
+      <button class="ghost-btn" id="saveBtn">💾 Save</button>
+      <button class="primary-btn" id="shareBtn">🔗 Share</button>
+      <button class="primary-btn" id="exportBtn">Export</button>
+    </div>
+  </header>
 
-    <!-- EDITOR -->
-    <section class="editor">
+  <!-- ================= APP ================= -->
+  <main class="app">
 
-      <canvas id="canvas"></canvas>
+    <!-- LEFT SIDEBAR -->
+    <aside class="sidebar left-sidebar">
+
+      <button class="tool active" data-panel="templates">
+        <span>▦</span>
+        <small>Templates</small>
+      </button>
+
+      <button class="tool" data-panel="text">
+        <span>T</span>
+        <small>Text</small>
+      </button>
+
+      <button class="tool" data-panel="uploads">
+        <span>↑</span>
+        <small>Uploads</small>
+      </button>
+
+      <button class="tool" data-panel="background">
+        <span>◐</span>
+        <small>BG</small>
+      </button>
+
+      <button class="tool" data-panel="elements">
+        <span>◇</span>
+        <small>Elements</small>
+      </button>
+
+      <button class="tool" data-panel="settings">
+        <span>⚙</span>
+        <small>Settings</small>
+      </button>
+
+    </aside>
+
+    <!-- PANEL -->
+    <section class="panel">
+
+      <!-- TEMPLATES -->
+      <div class="panel-content active" id="templatesPanel">
+        <div class="panel-heading">
+          <h2>Templates</h2>
+          <span>Ready to use</span>
+        </div>
+
+        <div class="template-grid">
+          <button class="template-card" data-template="sale">
+            <div class="template-preview sale-preview">
+              <b>SALE</b>
+              <strong>50% OFF</strong>
+              <span>SHOP NOW</span>
+            </div>
+            <label>Sale Poster</label>
+          </button>
+
+          <button class="template-card" data-template="event">
+            <div class="template-preview event-preview">
+              <b>EVENT</b>
+              <strong>TONIGHT</strong>
+              <span>7:00 PM</span>
+            </div>
+            <label>Event Poster</label>
+          </button>
+
+          <button class="template-card" data-template="social">
+            <div class="template-preview social-preview">
+              <b>YOUR</b>
+              <strong>STORY</strong>
+              <span>2026</span>
+            </div>
+            <label>Social Post</label>
+          </button>
+        </div>
+      </div>
+
+      <!-- TEXT -->
+      <div class="panel-content" id="textPanel">
+        <div class="panel-heading">
+          <h2>Text</h2>
+          <span>Add editable text</span>
+        </div>
+
+        <button class="wide-btn" id="addHeading">＋ Add heading</button>
+        <button class="wide-btn" id="addSubheading">＋ Add subheading</button>
+        <button class="wide-btn" id="addBody">＋ Add body text</button>
+      </div>
+
+      <!-- UPLOADS -->
+      <div class="panel-content" id="uploadsPanel">
+        <div class="panel-heading">
+          <h2>Uploads</h2>
+          <span>Your images</span>
+        </div>
+
+        <label class="upload-box" for="imageUpload">
+          <span class="upload-icon">↑</span>
+          <b>Upload image</b>
+          <small>PNG, JPG, WEBP</small>
+        </label>
+
+        <input id="imageUpload" type="file" accept="image/png,image/jpeg,image/webp" hidden>
+
+        <div id="uploadPreview" class="upload-preview"></div>
+      </div>
+
+      <!-- BACKGROUND -->
+      <div class="panel-content" id="backgroundPanel">
+        <div class="panel-heading">
+          <h2>Background</h2>
+          <span>Customize canvas</span>
+        </div>
+
+        <label class="field-label">Color</label>
+        <input id="bgColor" class="color-input" type="color" value="#111827">
+
+        <button class="wide-btn" id="clearBg">Remove background</button>
+      </div>
+
+      <!-- ELEMENTS -->
+      <div class="panel-content" id="elementsPanel">
+        <div class="panel-heading">
+          <h2>Elements</h2>
+          <span>Basic shapes</span>
+        </div>
+
+        <button class="wide-btn" id="addRect">＋ Rectangle</button>
+        <button class="wide-btn" id="addCircle">＋ Circle</button>
+      </div>
+
+      <!-- SETTINGS -->
+      <div class="panel-content" id="settingsPanel">
+        <div class="panel-heading">
+          <h2>Canvas</h2>
+          <span>Design settings</span>
+        </div>
+
+        <label class="field-label">Width</label>
+        <input id="canvasWidth" class="number-input" type="number" value="900">
+
+        <label class="field-label">Height</label>
+        <input id="canvasHeight" class="number-input" type="number" value="600">
+
+        <button class="wide-btn" id="resizeCanvas">Apply size</button>
+      </div>
 
     </section>
 
+    <!-- ================= WORKSPACE ================= -->
+    <section class="workspace">
+
+      <div class="workspace-toolbar">
+
+        <div class="toolbar-group">
+          <button id="undoBtn" title="Undo">↶</button>
+          <button id="redoBtn" title="Redo">↷</button>
+        </div>
+
+        <div class="design-title">
+          <input id="designName" value="Untitled Design">
+        </div>
+
+        <div class="toolbar-group">
+          <button id="zoomOut">−</button>
+          <span id="zoomValue">100%</span>
+          <button id="zoomIn">＋</button>
+        </div>
+
+      </div>
+
+      <div class="canvas-area">
+        <div class="canvas-wrapper" id="canvasWrapper">
+          <canvas id="designCanvas" width="900" height="600"></canvas>
+        </div>
+
+        <div class="empty-hint" id="emptyHint">
+          <div class="empty-icon">✦</div>
+          <h2>Start creating</h2>
+          <p>Upload an image or choose a template.</p>
+          <button class="primary-btn" id="startUploadBtn">Upload image</button>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- RIGHT PROPERTIES -->
+    <aside class="properties">
+
+      <div class="properties-header">
+        <h2>Properties</h2>
+        <button id="deleteBtn" title="Delete selected">🗑</button>
+      </div>
+
+      <div id="noSelection" class="no-selection">
+        <span>✦</span>
+        <p>Select an element<br>to edit its properties.</p>
+      </div>
+
+      <div id="textProperties" class="property-section hidden">
+
+        <label class="field-label">Text</label>
+        <textarea id="textValue" rows="3"></textarea>
+
+        <label class="field-label">Font</label>
+        <select id="fontFamily" class="select-input">
+          <option value="Inter">Inter</option>
+          <option value="Arial">Arial</option>
+          <option value="Georgia">Georgia</option>
+          <option value="Impact">Impact</option>
+          <option value="Courier New">Courier New</option>
+        </select>
+
+        <div class="two-columns">
+          <div>
+            <label class="field-label">Size</label>
+            <input id="fontSize" class="number-input" type="number" value="40">
+          </div>
+
+          <div>
+            <label class="field-label">Color</label>
+            <input id="textColor" class="color-input" type="color" value="#ffffff">
+          </div>
+        </div>
+
+        <div class="format-buttons">
+          <button id="boldBtn"><b>B</b></button>
+          <button id="italicBtn"><i>I</i></button>
+          <button id="underlineBtn"><u>U</u></button>
+        </div>
+
+      </div>
+
+      <div id="objectProperties" class="property-section hidden">
+
+        <label class="field-label">Opacity</label>
+        <input id="opacityRange" type="range" min="0" max="1" step="0.01" value="1">
+
+        <div class="two-columns">
+          <div>
+            <label class="field-label">Width</label>
+            <input id="objectWidth" class="number-input" type="number">
+          </div>
+
+          <div>
+            <label class="field-label">Height</label>
+            <input id="objectHeight" class="number-input" type="number">
+          </div>
+        </div>
+
+        <label class="field-label">Rotation</label>
+        <input id="rotationRange" type="range" min="-180" max="180" value="0">
+
+      </div>
+
+      <div class="layer-section">
+        <div class="layer-heading">
+          <h3>Layers</h3>
+        </div>
+
+        <div id="layersList"></div>
+      </div>
+
+    </aside>
+
   </main>
 
+  <!-- SHARE MODAL -->
+  <div class="modal-overlay" id="shareModal">
+    <div class="modal">
+      <button class="modal-close" id="closeShare">×</button>
+      <div class="modal-icon">🔗</div>
+      <h2>Share your design</h2>
+      <p>Anyone with this link can view your design.</p>
 
-  <script src="editor.js"></script>
+      <div class="share-input">
+        <input id="shareLink" readonly>
+        <button id="copyLink">Copy</button>
+      </div>
+
+      <div class="share-options">
+        <button class="wide-btn" id="nativeShare">Share</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST -->
+  <div class="toast" id="toast"></div>
+
+  <!-- Fabric.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.1/fabric.min.js"></script>
+  <script src="script.js"></script>
 
 </body>
-
-        </html>
+</html>
