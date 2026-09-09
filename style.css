@@ -1,0 +1,120 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background: #f2f2f2;
+  color: #222;
+}
+
+/* Header */
+
+header {
+  text-align: center;
+  padding: 22px 15px;
+  background: #111;
+  color: white;
+}
+
+header h1 {
+  font-size: 26px;
+}
+
+header p {
+  margin-top: 6px;
+  font-size: 14px;
+  opacity: 0.8;
+}
+
+
+/* Toolbar */
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px;
+  background: white;
+  border-bottom: 1px solid #ddd;
+  overflow-x: auto;
+}
+
+button,
+.upload-btn {
+  border: none;
+  background: #222;
+  color: white;
+  padding: 11px 15px;
+  border-radius: 8px;
+  cursor: pointer;
+  white-space: nowrap;
+  font-size: 14px;
+}
+
+button:hover,
+.upload-btn:hover {
+  opacity: 0.8;
+}
+
+.upload-btn input {
+  display: none;
+}
+
+
+/* Color */
+
+.color-box {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  white-space: nowrap;
+  font-size: 14px;
+}
+
+#textColor {
+  width: 40px;
+  height: 35px;
+  border: none;
+  padding: 0;
+}
+
+
+/* Editor */
+
+.editor {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 20px;
+  min-height: 70vh;
+  overflow: auto;
+}
+
+
+/* Canvas */
+
+.canvas-container {
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+}
+
+
+/* Mobile */
+
+@media (max-width: 600px) {
+
+  header h1 {
+    font-size: 22px;
+  }
+
+  .toolbar {
+    padding: 10px;
+  }
+
+  .editor {
+    padding: 10px;
+  }
+
+}
