@@ -1,7 +1,8 @@
 /* =========================================
    LAYERFORGE EDITOR
 ========================================= */
-
+alert("JavaScript is working!");
+console.log("LayerForge JS loaded");
 console.log("LayerForge starting...");
 
 /* Make sure Fabric loaded */
